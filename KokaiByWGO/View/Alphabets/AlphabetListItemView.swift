@@ -12,9 +12,8 @@ struct AlphabetListItemView: View {
     let alphabet: AlphabetModel
     // MARK: - BODY
     var body: some View {
-        ImageCardButton(imageName: alphabet.image) {
+        ButtonImageCard(imageName: alphabet.image) {
             playSound(sound: alphabet.sound, type: "mp3")
-            feedback.notificationOccurred(.success)
         }
     }
 }

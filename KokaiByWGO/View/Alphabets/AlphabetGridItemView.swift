@@ -13,9 +13,8 @@ struct AlphabetGridItemView: View {
     // MARK: - BODY
     
     var body: some View {
-        ImageCardButton(imageName: alphabet.image.replacingOccurrences(of: "alphabet_", with: "C")) {
+        ButtonImageCard(imageName: alphabet.image.replacingOccurrences(of: "alphabet_", with: "C")) {
             playSound(sound: alphabet.sound, type: "mp3")
-            feedback.notificationOccurred(.success)
         }
     }
 }

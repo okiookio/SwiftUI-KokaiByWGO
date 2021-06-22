@@ -8,6 +8,16 @@
 import Foundation
 import SwiftUI
 
+extension UITextView {
+    #if targetEnvironment(macCatalyst)
+    @objc(_focusRingType)
+    var focusRingType: UInt {
+        return 1 //NSFocusRingTypeNone
+    }
+    #endif
+}
+ 
+ 
 public extension UIDevice {
    var isSmallScreen: Bool {
        var systemInfo = utsname()
@@ -38,10 +48,20 @@ extension String {
     }
 }
 
-#if canImport(UIKit)
-extension View {
-  func hideKeyboard() {
-    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+
+// MARK: - CardTransition
+extension AnyTransition {
+  static var trailingBottom: AnyTransition {
+    AnyTransition.asymmetric(
+      insertion: .identity,
+      removal: AnyTransition.move(edge: .trailing).combined(with: .move(edge: .bottom)))
+  }
+  
+  static var leadingBottom: AnyTransition {
+    AnyTransition.asymmetric(
+      insertion: .identity,
+      removal: AnyTransition.move(edge: .leading).combined(with: .move(edge: .bottom)))
   }
 }
-#endif
+
+

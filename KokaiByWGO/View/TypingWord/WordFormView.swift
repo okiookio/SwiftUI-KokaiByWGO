@@ -62,7 +62,7 @@ struct WordFormView: View {
                 
                 // Note: - SPELLING SELECTION BUTTON
                 if spellingImages.count == 0 {
-                    TextWithIconActionButton(imageName: "plus.circle", text: text._addSpell){
+                    ButtonTextWithIconAction(imageName: "plus.circle", text: text._addSpell){
                         isShowInputItemView.toggle()
                     }
                 } else {

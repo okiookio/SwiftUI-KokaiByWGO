@@ -13,9 +13,8 @@ struct VowelListItemView: View {
     // MARK: - BODY
     
     var body: some View {
-        ImageCardButton(imageName: vowel.image) {
+        ButtonImageCard(imageName: vowel.image) {
             playSound(sound: vowel.sound, type: "mp3")
-            feedback.notificationOccurred(.success)
         }
     }
 }

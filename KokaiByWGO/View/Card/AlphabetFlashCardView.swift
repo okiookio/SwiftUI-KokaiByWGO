@@ -9,7 +9,11 @@ import SwiftUI
 
 struct AlphabetFlashCardView: View {
   // MARK: - PROPERTIES
-  static var alphabets: [AlphabetModel] = Bundle.main.decode("Alphabets.json")
+    @Environment(\.presentationMode) var presentationMode
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
+    // isAlphabetQuiz = true -> Alphabet
+    // isAlphabetQuiz = false -> Vowel
+    @State var isAlphabetQuiz: Bool = true
   
   @State var showAlert: Bool = false
   @State var showGuide: Bool = false
@@ -23,7 +27,7 @@ struct AlphabetFlashCardView: View {
   @State var cardViews: [AlphabetCardView] = {
     var views = [AlphabetCardView]()
     for index in 0..<2 {
-      views.append(AlphabetCardView(alphabet: alphabets[index]))
+      views.append(AlphabetCardView(alphabet: kAlphabets[index]))
     }
     return views
   }()
@@ -88,96 +92,100 @@ struct AlphabetFlashCardView: View {
   }
   
   var body: some View {
-    VStack {
-      // MARK: - HEADER
-       
-      
-      //Spacer()
-      
-      // MARK: - CARDS
-      ZStack {
-        ForEach(cardViews) { cardView in
-          cardView
-            .zIndex(self.isTopCard(cardView: cardView) ? 1 : 0)
-            .overlay(
-              ZStack {
-                // X-MARK SYMBOL
-                Image(systemName: "x.circle")
-                  .modifier(SymbolModifier())
-                  .opacity(self.dragState.translation.width < -self.dragAreaThreshold && self.isTopCard(cardView: cardView) ? 1.0 : 0.0)
-                
-                // HEART SYMBOL
-                Image(systemName: "heart.circle")
-                  .modifier(SymbolModifier())
-                  .opacity(self.dragState.translation.width > self.dragAreaThreshold && self.isTopCard(cardView: cardView) ? 1.0 : 0.0)
+    NavigationView {
+      ScrollView(.vertical, showsIndicators: false) {
+        VStack(alignment: .center) {
+            // MARK: - CARDS
+            ZStack {
+              ForEach(cardViews) { cardView in
+                cardView
+                  .zIndex(self.isTopCard(cardView: cardView) ? 1 : 0)
+                  .overlay(
+                    ZStack {
+                      // X-MARK SYMBOL
+                      Image(systemName: "hand.thumbsdown")
+                        .modifier(SymbolModifier())
+                        .opacity(self.dragState.translation.width < -self.dragAreaThreshold && self.isTopCard(cardView: cardView) ? 1.0 : 0.0)
+                      
+                      // HEART SYMBOL
+                      Image(systemName: "hand.thumbsup")
+                        .modifier(SymbolModifier())
+                        .opacity(self.dragState.translation.width > self.dragAreaThreshold && self.isTopCard(cardView: cardView) ? 1.0 : 0.0)
+                    }
+                )
+                  .offset(x: self.isTopCard(cardView: cardView) ?  self.dragState.translation.width : 0, y: self.isTopCard(cardView: cardView) ?  self.dragState.translation.height : 0)
+                  .scaleEffect(self.dragState.isDragging && self.isTopCard(cardView: cardView) ? 0.85 : 1.0)
+                  .rotationEffect(Angle(degrees: self.isTopCard(cardView: cardView) ? Double(self.dragState.translation.width / 12) : 0))
+                  .animation(.interpolatingSpring(stiffness: 120, damping: 120))
+                  .gesture(LongPressGesture(minimumDuration: 0.01)
+                    .sequenced(before: DragGesture())
+                    .updating(self.$dragState, body: { (value, state, transaction) in
+                      switch value {
+                      case .first(true):
+                        state = .pressing
+                      case .second(true, let drag):
+                        state = .dragging(translation: drag?.translation ?? .zero)
+                      default:
+                        break
+                      }
+                    })
+                    .onChanged({ (value) in
+                      guard case .second(true, let drag?) = value else {
+                        return
+                      }
+                      
+                      if drag.translation.width < -self.dragAreaThreshold {
+                          self.cardRemovalTransition = .leadingBottom
+                      }
+                      
+                      if drag.translation.width > self.dragAreaThreshold {
+                        self.cardRemovalTransition = .trailingBottom
+                      }
+                    })
+                    .onEnded({ (value) in
+                      guard case .second(true, let drag?) = value else {
+                        return
+                      }
+                    
+                      if drag.translation.width < -self.dragAreaThreshold {
+                            playSound(sound: kAlphabets[self.lastCardIndex].sound, type: "mp3")
+                            self.moveCards()
+                      }
+                      
+                      if drag.translation.width > self.dragAreaThreshold {
+                            playSound(sound: kAlphabets[self.lastCardIndex].sound, type: "mp3")
+                            self.moveCards()
+                      }
+                      
+                    })
+                ).transition(self.cardRemovalTransition)
               }
-          )
-            .offset(x: self.isTopCard(cardView: cardView) ?  self.dragState.translation.width : 0, y: self.isTopCard(cardView: cardView) ?  self.dragState.translation.height : 0)
-            .scaleEffect(self.dragState.isDragging && self.isTopCard(cardView: cardView) ? 0.85 : 1.0)
-            .rotationEffect(Angle(degrees: self.isTopCard(cardView: cardView) ? Double(self.dragState.translation.width / 12) : 0))
-            .animation(.interpolatingSpring(stiffness: 120, damping: 120))
-            .gesture(LongPressGesture(minimumDuration: 0.01)
-              .sequenced(before: DragGesture())
-              .updating(self.$dragState, body: { (value, state, transaction) in
-                switch value {
-                case .first(true):
-                  state = .pressing
-                case .second(true, let drag):
-                  state = .dragging(translation: drag?.translation ?? .zero)
-                default:
-                  break
-                }
-              })
-              .onChanged({ (value) in
-                guard case .second(true, let drag?) = value else {
-                  return
-                }
-                
-                if drag.translation.width < -self.dragAreaThreshold {
-                    self.cardRemovalTransition = .leadingBottom
-                }
-                
-                if drag.translation.width > self.dragAreaThreshold {
-                  self.cardRemovalTransition = .trailingBottom
-                }
-              })
-              .onEnded({ (value) in
-                guard case .second(true, let drag?) = value else {
-                  return
-                }
-                 
-                if drag.translation.width < -self.dragAreaThreshold || drag.translation.width > self.dragAreaThreshold {
-                 playSound(sound: "sound-rise", type: "mp3")
-                 self.moveCards()
-                }
-                
-                if drag.translation.width < -self.dragAreaThreshold {
-                    playSound(sound: "sound-rise", type: "mp3")
-                    self.moveCards()
-                    print("Left")
-                }
-                
-                if drag.translation.width > self.dragAreaThreshold {
-                    print("Right")
-                }
-                
-              })
-          ).transition(self.cardRemovalTransition)
+            }
+            .onAppear(){
+                playSound(sound: kAlphabets[0].sound, type: "mp3")
+            }
+            //: ZSTACK
         }
-      }
-      .padding(.horizontal)
-      
-      Spacer()
-      
-      // MARK: - FOOTER
- 
-    }
-    .alert(isPresented: $showAlert) {
-      Alert(
-        title: Text("SUCCESS"),
-        message: Text("Wishing a lovely and most precious of the times together for the amazing couple."),
-        dismissButton: .default(Text("Happy alphabet!")))
-    }
+           
+        //: VSTACK
+        .padding(.top)
+        .modifier(NavigationBarTitleModifier(titleBar: text._menuAlphabet))
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                  Image(systemName: "arrow.backward")
+                    .modifier(NavigationBarIconModifier())
+                }
+            }
+        }
+        
+      } //: SCROLL
+      .modifier(ScreenModifier())
+    } //: NAVIGATION
+    
+    .navigationViewStyle(StackNavigationViewStyle())
   }
 }
 

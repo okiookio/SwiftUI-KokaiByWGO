@@ -9,12 +9,14 @@ import SwiftUI
 
 struct HeroHeaderView: View {
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
-   
+    let heroTextHeader: String
+    
+    
     var body: some View {
         // MARK: - HEADER
         HStack(spacing: 10) {
           // TITLE
-          Text("Word")
+          Text(heroTextHeader)
             .font(.system(.largeTitle, design: .rounded))
             .fontWeight(.heavy)
             .padding(.leading, 4)
@@ -22,7 +24,7 @@ struct HeroHeaderView: View {
           Spacer()
    
           // Note: - SCREEN MODE ICON
-          ScreenModeActionButton()
+          ButtonModeDarkAndLightAction()
           
         } //: HSTACK
         .padding()
@@ -32,7 +34,7 @@ struct HeroHeaderView: View {
 
 struct HeroHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeroHeaderView()
+        HeroHeaderView(heroTextHeader: "Hero Header")
             .previewLayout(.fixed(width: 375, height: 80))
     }
 }

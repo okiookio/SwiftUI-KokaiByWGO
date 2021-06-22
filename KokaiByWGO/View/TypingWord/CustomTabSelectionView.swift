@@ -34,7 +34,7 @@ struct CustomTabSelectionView: View {
                 SpellingImagesListView(spellingImages: $spellingImages)
                 Spacer()
                 //: REMOVE SPELLING IMAGE
-                IconActionButton(imageName: "delete.left.fill"){
+                ButtonIconAction(imageName: "delete.left.fill"){
                     if spellingImages.count > 0 {
                         spellingImages.removeLast()
                         typingVM.removeLastCharector()
@@ -44,11 +44,11 @@ struct CustomTabSelectionView: View {
             // MARK: - ACTION BOTTON
             HStack {
                 //: ADD SPELLING ITEM TO FORM
-                TextWithIconActionButton(imageName: "plus.circle", text: text._add){
+                ButtonTextWithIconAction(imageName: "plus.circle", text: text._add){
                     isShowInputItemView.toggle()
                 }
                 
-                TextWithIconActionButton(imageName: "xmark.circle", text: text._clear){
+                ButtonTextWithIconAction(imageName: "xmark.circle", text: text._clear){
                     spellingImages = []
                     typingVM.typing = []
                     isShowInputItemView.toggle()
@@ -88,7 +88,7 @@ struct CustomTabSelectionView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(kAlphabets) { alphabet in
-                            ImageCardButton(imageName: alphabet.image.replacingOccurrences(of: "alphabet_", with: "C")) {
+                            ButtonImageCard(imageName: alphabet.image.replacingOccurrences(of: "alphabet_", with: "C")) {
                                 let selectedCode = alphabet.image.replacingOccurrences(of: "alphabet_", with: "C")
                                 spellingImages.append(selectedCode)
                                 typingVM.add(selectedCode)
@@ -104,7 +104,7 @@ struct CustomTabSelectionView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(kVowels) { vowel in
-                            ImageCardButton(imageName: vowel.image.replacingOccurrences(of: "sara_", with: "S")) {
+                            ButtonImageCard(imageName: vowel.image.replacingOccurrences(of: "sara_", with: "S")) {
                                 let selectedCode = vowel.image.replacingOccurrences(of: "sara_", with: "S")
                                 spellingImages.append(selectedCode)
                                 typingVM.add(selectedCode)
@@ -119,7 +119,7 @@ struct CustomTabSelectionView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(1 ..< 5) { tone in
-                            ImageActionButton(imageName: "T0\(tone)") {
+                            ButtonImageAction(imageName: "T0\(tone)") {
                                 let selectedCode = "T0\(tone)"
                                 spellingImages.append(selectedCode)
                                 typingVM.add(selectedCode)

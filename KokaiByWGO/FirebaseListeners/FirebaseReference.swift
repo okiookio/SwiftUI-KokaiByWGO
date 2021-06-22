@@ -9,10 +9,10 @@ import Foundation
 import FirebaseFirestore
 
 enum FCollectionReference: String {
-    case User = "TodoUser"
-    case TodoList = "RecyclistList"
-    case TodoItemList = "RecyclistItem"
-    case SharePinCode = "RecyclistSharePinCode"
+    case tblLevel = "KokaiLevel"
+    case tblChapter = "KokaiChapter"
+    case tblSection = "KokaiSection"
+    case tblSentence = "KokaiSentence"
 } 
 
 func FirebaseReference(_ collectionReference: FCollectionReference) -> CollectionReference {

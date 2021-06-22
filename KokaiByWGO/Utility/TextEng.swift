@@ -7,9 +7,19 @@
  
  
 public struct TextEnglish {
+    let _unknownText = "Unknown"
+    let _menuHome = "Home"
+    let _menuQuiz = "Quiz"
+    let _menuLesson = "Lesson"
     let _menuTypeing = "Typing"
+    
+    // Home Menu
     let _menuAlphabet = "Alphabets"
+    let _menuAlphabetDesc = "Alphabets"
     let _menuVowel = "Vowels"
+    let _menuVowelDesc = "Vowels"
+    let _menuNewWords = "New Words"
+    let _menuNewWordsDesc = "New Words"
     
     let _newWord = "New Word"
     let _wordLabel = "Word"
@@ -29,6 +39,13 @@ public struct TextEnglish {
     let _clear = "Clear & Close"
     let _addSpell = "Spelling Word"
     let _addImage = "Add Image"
+    
+    // Quiz
+    let _quizAlphabetHeader = "Alphabet Quiz"
+    let _quizVowelHeader = "Vowel Quiz"
+    let _progress = "Progress "
+    let _yourScore = "Your\nScore"
+    let _playAgain = "Play\nAgain"
 }
 
 var text = TextEnglish()

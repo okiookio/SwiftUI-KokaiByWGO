@@ -11,5 +11,7 @@ target 'KokaiByWGO' do
 
   # download the image from url
   pod 'Kingfisher', '~> 6.0'
+  # Google Speech STT
+  pod 'googleapis', :path => '.'
 
 end

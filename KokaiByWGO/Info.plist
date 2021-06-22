@@ -30,11 +30,9 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
-		<string>ColorBlueberryDark</string>
+		<string>launch-screen-color</string>
 		<key>UIImageName</key>
 		<string>logo</string>
-		<key>UIImageRespectsSafeAreaInsets</key>
-		<true/>
 	</dict>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

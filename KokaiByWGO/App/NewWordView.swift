@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewWordView: View {
+    
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     
     @State var isShowing: Bool = false
@@ -19,13 +20,12 @@ struct NewWordView: View {
           ZStack {
             // MARK: - MAIN VIEW
             VStack {
-                HeroHeaderView()  
+                HeroHeaderView(heroTextHeader: text._newWord)
                 WordFormView(isShowInputItemView: $isShowInputItemView, spellingImages: $spellingImages)
                 Spacer()
             }
             .blur(radius: isShowInputItemView ? 6.0 : 0, opaque: false)
-            .transition(.move(edge: .bottom))
-            .animation(.easeOut(duration: 0.5))
+            .modifier(loadViewEffectModifier())
             .padding(7)
             
             // MARK: - NEW TASK ITEM
@@ -47,15 +47,15 @@ struct NewWordView: View {
           }
           .navigationBarTitle(text._newWord, displayMode: .large)
           .navigationBarHidden(true)
-          .background(
+          /*.background(
             BackgroundImageView()
               .blur(radius: isShowInputItemView ? 8.0 : 0, opaque: false)
-          )
+          )*/
           .background(
             backgroundGradient.ignoresSafeArea(.all)
           )
         } //: NAVIGATION
-        .navigationViewStyle(StackNavigationViewStyle())
+        //.navigationViewStyle(StackNavigationViewStyle())
        
     }
 }

@@ -8,62 +8,34 @@
 import SwiftUI
 
 struct AlphabetCardView: View, Identifiable {
-  // MARK: - PROPERTIES
+    // MARK: - PROPERTIES
   let id = UUID()
   var alphabet: AlphabetModel
   
+  // MARK: - BODY
   var body: some View {
-    Image(alphabet.image)
-      .resizable()
-      .cornerRadius(24)
-      .scaledToFit()
-      .frame(minWidth: 0, maxWidth: .infinity)
-      .overlay(
-        VStack(alignment: .center, spacing: 12) {
-            /*HStack {
-                Text(alphabet.vowelThai)
-                .foregroundColor(Color.white)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .shadow(radius: 1)
-                .padding(.horizontal, 18)
-                .padding(.vertical, 4)
-                .overlay(
-                  Rectangle()
-                    .fill(Color.white)
-                    .frame(height: 1),
-                  alignment: .bottom
-                )
-              Text(alphabet.vowelEnglish)
-                .foregroundColor(Color.white)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .shadow(radius: 1)
-                .padding(.horizontal, 18)
-                .padding(.vertical, 4)
-                .overlay(
-                  Rectangle()
-                    .fill(Color.white)
-                    .frame(height: 1),
-                  alignment: .bottom
-                )
-            }*/
-            
-            Text(alphabet.meaning)
-              .foregroundColor(Color.black)
-              .font(.footnote)
-              .fontWeight(.bold)
-              .frame(minWidth: 85)
-              .padding(.horizontal, 10)
-              .padding(.vertical, 5)
-              .background(
-                Capsule().fill(Color.white)
-              )
+    VStack {
+        Image(alphabet.image)
+          .resizable()
+          .cornerRadius(24)
+          .scaledToFit()
+            .frame(maxWidth:  getScreen().height * 0.8, maxHeight: getScreen().height * 0.6)
+        
+        VStack{
+            CardInfoView(infoHeader: "Pronounce", infoDetail: alphabet.vowelEnglish)
+            CardInfoView(infoHeader: "Class", infoDetail: alphabet.AlphabetClass)
+            CardInfoView(infoHeader: "RTGSInitial", infoDetail: alphabet.RTGSInitial)
+            CardInfoView(infoHeader: "RTGSInitial", infoDetail: alphabet.RTGSFinal)
         }
-        .frame(minWidth: 280)
-        .padding(.bottom, 30),
-        alignment: .bottom
-      )
+        .padding(.horizontal, 15)
+        .padding(.vertical, 10)
+        .background(Color.gray)
+        .cornerRadius(4)
+        .padding(.bottom, 2)
+        Spacer()
+    }
+    .modifier(ScreenModifier())
+    //: VSTACK
   }
 }
 
@@ -71,7 +43,7 @@ struct CardView_Previews: PreviewProvider {
   
   static var previews: some View {
     AlphabetCardView(alphabet: kAlphabets[0])
-      .previewLayout(.fixed(width: 375, height: 600))
+      //.previewLayout(.fixed(width: 375, height: 600))
   }
 }
 

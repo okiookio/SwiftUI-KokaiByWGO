@@ -72,6 +72,9 @@ struct AlphabetDetailView: View {
             .navigationBarHidden(true)
           } //: SCROLL
           .edgesIgnoringSafeArea(.top)
+          .background(
+            backgroundGradient.ignoresSafeArea(.all)
+          )
         }
         .navigationViewStyle(StackNavigationViewStyle())
         //: NAVIGATION

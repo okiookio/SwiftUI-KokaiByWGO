@@ -17,5 +17,17 @@ func playSound(sound: String, type: String) {
     } catch {
       print("Could not find and play the sound file.")
     }
+    feedback.notificationOccurred(.success)
   }
+}
+
+
+func playAVSpeechSound(text: String) {
+    let utterance = AVSpeechUtterance(string: text)
+    utterance.voice = AVSpeechSynthesisVoice(language: "th-TH")
+    utterance.rate = 0.5
+
+    let synthesizer = AVSpeechSynthesizer()
+    synthesizer.speak(utterance)
+ 
 }
