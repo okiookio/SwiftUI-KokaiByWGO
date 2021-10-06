@@ -5,6 +5,8 @@
  
  Learn Thai with pictures and sounds
  
+ `Note : ` This version have no CMS so you will not be able to se anything on Lesson men but you can [download](https://apps.apple.com/se/app/kokai-by-wgo/id1576411613) my app on AppStore.
+ 
  ## How to setup project
 1. Clone project to your Mac
 2. Setup firebase  [See](https://firebase.google.com/docs/ios/setup)
@@ -17,7 +19,7 @@
 ```
 5.  Close project and open again (Click on the white icon)
 
-`Note : ` This version have no CMS so you will not be able to se anything on Lesson men but you can [download](https://apps.apple.com/se/app/kokai-by-wgo/id1576411613) my app on AppStore.
+
 
  
 <img src="https://github.com/waleerat/GitHub-Photos-Shared/blob/main/SwiftUI-KokaiByWGO/kokai-1.png" width="30%" height="30%"> |
