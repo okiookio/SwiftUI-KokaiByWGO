@@ -3,7 +3,7 @@
  ### Xcode Version 12.0
  ###### SwiftUI, Firebase, Kingfisher, googleapis
  
- Learn Thai with picture and sounds
+ Learn Thai with pictures and sounds
  
 <img src="https://github.com/waleerat/GitHub-Photos-Shared/blob/main/SwiftUI-KokaiByWGO/kokai-1.png" width="30%" height="30%"> |
 <img src="https://github.com/waleerat/GitHub-Photos-Shared/blob/main/SwiftUI-KokaiByWGO/kokai-2.png" width="30%" height="30%"> |
